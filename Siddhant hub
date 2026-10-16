@@ -24713,12 +24713,22 @@ local __PASS38_NAMED_FUNCTIONS = {
 for __name, __fn in pairs(__PASS38_NAMED_FUNCTIONS) do
     if type(__fn) == "function" then rawset(_G, __name, __fn) end
 end
--- Change screen UI name to Siddhant Hub
+-- Continuous UI Title Updater for Siddhant Hub
 task.spawn(function()
-    task.wait(2)
-    for _, v in ipairs(game:GetService("CoreGui"):GetDescendants()) do
-        if v:IsA("TextLabel") and v.Text:find("Banana Cat Hub") then
-            v.Text = v.Text:gsub("Banana Cat Hub", "Siddhant Hub")
+    while task.wait(0.5) do
+        -- Check PlayerGui and CoreGui
+        local guis = {game:GetService("CoreGui"), game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")}
+        for _, gui in ipairs(guis) do
+            if gui then
+                for _, obj in ipairs(gui:GetDescendants()) do
+                    if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+                        if obj.Text and obj.Text:find("Banana Cat") then
+                            obj.Text = obj.Text:gsub("Banana Cat", "Siddhant")
+                        end
+                    end
+                end
+            end
         end
     end
 end)
+
